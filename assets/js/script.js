@@ -1,5 +1,7 @@
 // Wait for the DOM to finish loading beforee running the game
 // Get the benjamin button elements and add event listeners to them!
+let yourname = prompt("Hello there, What's your name?");
+console.log("Do you wish to play a game, " + yourname + "!"); 
 
 document.addEventListener("DOMContentLoaded", function () {
     let buttons = document.getElementsByTagName("button");
@@ -26,13 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function runGame(gameType) {
 
-// Creates two random numbers between 1 and 25
+    // Creates two random numbers between 1 and 25
 
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
 
     if (gameType === "addition") {
-        displayAdditionQuestion(num1,num2);
+        displayAdditionQuestion(num1, num2);
     } else {
         alert(`Unkown game type: ${gameType}`);
         throw `Unkown game type: ${gameType}. Aborting!`;
@@ -46,15 +48,19 @@ function runGame(gameType) {
  */
 function checkAnswer() {
 
-let userAnswer = parseInt(document.getElementById("answer-box").value);
-let calculatedAnswer = calculateCorrectAnswer();
-let isCorrect = userAnswer === calculatedAnswer[0];
-   if (isCorrect) {
-    alert("Heeeeeey! You got it right! xD xP");
-   }    else {
-    alert(`Awwwwwwwww.... you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}!`);
-   }
-runGame(calculatedAnswer[1]);
+    let userAnswer = parseInt(document.getElementById("answer-box").value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
+    if (isCorrect) {
+        alert(`Heeeeeey! You got it right ${yourname}, Lets add a point to the scoreboard! xD xP`);
+        incrementScore();
+    } else {
+        alert(`Awwww, Nice try ${yourname} you answered ${userAnswer}. 
+        The correct answer was ${calculatedAnswer[0]}! 
+        you just lost a point! `);
+        incrementWrongAnswer();
+    }
+    runGame(calculatedAnswer[1]);
 }
 
 /**
@@ -73,14 +79,26 @@ function calculateCorrectAnswer() {
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!`;
     }
-    }
+}
 
-
+/**
+ * Get the current score from the DOM and increments it by 1
+ */
 function incrementScore() {
+
+    let oldScore = parseInt(document.getElementById("score").innerText);
+    document.getElementById("score").textContent = ++oldScore;
 
 }
 
-function incrementScore() {
+/**
+ * Gets the current score of incorrect answers from the DOM and increments by 1
+ */
+
+function incrementWrongAnswer() {
+
+    let oldScore = parseInt(document.getElementById("incorrect").innerText);
+    document.getElementById("incorrect").textContent = ++oldScore;
 
 }
 
